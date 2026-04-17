@@ -4,4 +4,10 @@ node_modules
 /.DS_Store
 
 client/node_modules
+client/dist
 server/node_modules
+
+# Local files not meant for git
+*.env
+server-deploy.zip
+AWSCLIV2.pkg
