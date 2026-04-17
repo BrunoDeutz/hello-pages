@@ -5,7 +5,11 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
-  : ['http://localhost:5173'];
+  : [
+      'http://localhost:5173',
+      'https://d3l95vfv72hyao.amplifyapp.com',
+      'https://main.d3l95vfv72hyao.amplifyapp.com'
+    ];
 
 let pages = [];
 
