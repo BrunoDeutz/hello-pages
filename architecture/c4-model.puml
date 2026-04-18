@@ -1,0 +1,21 @@
+@startuml Hello Pages - C4 Container Diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Hello Pages — C4 Container Diagram
+
+Person(user, "User", "A person who saves and reads text pages")
+
+System_Boundary(hello_pages, "Hello Pages") {
+    Container(frontend, "Frontend", "React 18, Vite", "Single-page application. Renders the text input form and the list of saved pages.")
+    Container(cdn, "CDN", "AWS Amplify", "Serves the compiled React app over HTTPS. Proxies /api/* requests to the backend.")
+    Container(backend, "Backend API", "Node.js, Express", "REST API. Handles page creation and retrieval. Stores data in memory.")
+}
+
+Rel(user, cdn, "Opens app, saves pages", "HTTPS")
+Rel(cdn, frontend, "Serves static files", "HTTPS")
+Rel(frontend, cdn, "API calls /api/*", "HTTPS")
+Rel(cdn, backend, "Proxies /api/* requests", "HTTPS")
+
+@enduml

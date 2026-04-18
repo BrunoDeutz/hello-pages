@@ -1,0 +1,33 @@
+@startuml Hello Pages - Sequence Diagram
+title Hello Pages — Frontend / Backend Sequence Diagram
+
+actor User
+participant "React Frontend\n(Amplify)" as Frontend
+participant "Express Backend\n(App Runner)" as Backend
+
+== Page Load ==
+
+Frontend -> Backend: GET /api/pages
+Backend --> Frontend: 200 OK — []
+Frontend -> Frontend: Render empty page list
+
+== Save a Page (happy path) ==
+
+User -> Frontend: Types text and clicks Save
+Frontend -> Frontend: Disable Save button\n(loading = true)
+Frontend -> Backend: POST /api/pages\n{ "text": "..." }
+Backend -> Backend: Create page object\n{ id, text, createdAt }
+Backend --> Frontend: 201 Created\n{ id, text, createdAt }
+Frontend -> Frontend: Prepend new page to list\nClear text input\nEnable Save button\n(loading = false)
+Frontend --> User: Updated list displayed
+
+== Save a Page (timeout / backend unreachable) ==
+
+User -> Frontend: Types text and clicks Save
+Frontend -> Frontend: Disable Save button\n(loading = true)
+Frontend -> Backend: POST /api/pages\n{ "text": "..." }
+note right of Frontend: AbortController cancels\nthe request after 8 seconds
+Frontend -> Frontend: Enable Save button\n(loading = false)
+Frontend --> User: "Unable to save the page." error shown
+
+@enduml
